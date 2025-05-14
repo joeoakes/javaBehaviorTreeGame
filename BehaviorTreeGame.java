@@ -91,6 +91,11 @@ class Entity {
 
 class Player extends Entity {
     public Player(int x, int y) { this.x = x; this.y = y; }
+
+    public void setPosition(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
 }
 
 class Enemy extends Entity {
@@ -128,6 +133,15 @@ class GamePanel extends JPanel {
         root.addChild(chaseSeq);
         root.addChild(new WanderRandomly(enemy));
         this.behaviorTree = root;
+
+        // Mouse click to move player
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                player.setPosition(e.getX(), e.getY());
+                repaint();
+            }
+        });
 
         // Game loop timer
         Timer timer = new Timer(50, e -> {
